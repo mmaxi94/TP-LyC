@@ -1,0 +1,33 @@
+|Nombre                        |Tipo           |Valor                           |Longitud|
+------------------------------------------------------------------------------------------
+|a                             |float          |                                |        |
+|b                             |float          |                                |        |
+|variable1                     |int            |                                |        |
+|p1                            |string         |                                |        |
+|p2                            |string         |                                |        |
+|p3                            |string         |                                |        |
+|_1                            |               |1                               |        |
+|_3                            |               |3                               |        |
+|_4                            |               |4                               |        |
+|_2                            |               |2                               |        |
+|_"a es mas grande que b"      |               |"a es mas grande que b"         |21      |
+|_"a es mas chico o igual a b" |               |"a es mas chico o igual a b"    |26      |
+|_99999.99                     |               |99999.99                        |        |
+|_99.                          |               |99.                             |        |
+|_.9999                        |               |.9999                           |        |
+|_"@sdADaSjfla%dfg"            |               |"@sdADaSjfla%dfg"               |15      |
+|_"asldk  fh sjf"              |               |"asldk  fh sjf"                 |13      |
+|base                          |               |                                |        |
+|primos                        |               |                                |        |
+|_11                           |               |11                              |        |
+|_8                            |               |8                               |        |
+|_55                           |               |55                              |        |
+|_7                            |               |7                               |        |
+|_5.4                          |               |5.4                             |        |
+|_25                           |               |25                              |        |
+|_5                            |               |5                               |        |
+|c                             |               |                                |        |
+|_"a es mas grand"             |               |"a es mas grand"                |14      |
+|_"a es mas gra"               |               |"a es mas gra"                  |12      |
+|_"a no es mas grande que b"   |               |"a no es mas grande que b"      |24      |
+|var1                          |               |                                |        |
