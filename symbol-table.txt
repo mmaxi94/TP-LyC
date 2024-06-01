@@ -1,33 +1,37 @@
-|Nombre                        |Tipo           |Valor                           |Longitud|
-------------------------------------------------------------------------------------------
-|a                             |float          |                                |        |
-|b                             |float          |                                |        |
-|variable1                     |int            |                                |        |
-|p1                            |string         |                                |        |
-|p2                            |string         |                                |        |
-|p3                            |string         |                                |        |
-|_1                            |               |1                               |        |
-|_3                            |               |3                               |        |
-|_4                            |               |4                               |        |
-|_2                            |               |2                               |        |
-|_"a es mas grande que b"      |               |"a es mas grande que b"         |21      |
-|_"a es mas chico o igual a b" |               |"a es mas chico o igual a b"    |26      |
-|_99999.99                     |               |99999.99                        |        |
-|_99.                          |               |99.                             |        |
-|_.9999                        |               |.9999                           |        |
-|_"@sdADaSjfla%dfg"            |               |"@sdADaSjfla%dfg"               |15      |
-|_"asldk  fh sjf"              |               |"asldk  fh sjf"                 |13      |
-|base                          |               |                                |        |
-|primos                        |               |                                |        |
-|_11                           |               |11                              |        |
-|_8                            |               |8                               |        |
-|_55                           |               |55                              |        |
-|_7                            |               |7                               |        |
-|_5.4                          |               |5.4                             |        |
-|_25                           |               |25                              |        |
-|_5                            |               |5                               |        |
-|c                             |               |                                |        |
-|_"a es mas grand"             |               |"a es mas grand"                |14      |
-|_"a es mas gra"               |               |"a es mas gra"                  |12      |
-|_"a no es mas grande que b"   |               |"a no es mas grande que b"      |24      |
-|var1                          |               |                                |        |
+nombre                                            |tipoDato|valor                                             |longitud  
+-------------------------------------------------------------------------------------------------------------------------
+variable1                                         |Int    |                                                  |0         
+var1                                              |Int    |                                                  |0         
+primos                                            |Int    |                                                  |0         
+p3                                                |String |                                                  |0         
+p2                                                |String |                                                  |0         
+p1                                                |String |                                                  |0         
+h                                                 |Int    |                                                  |0         
+d                                                 |Float  |                                                  |0         
+c                                                 |Float  |                                                  |0         
+base                                              |Int    |                                                  |0         
+b                                                 |Int    |                                                  |0         
+a                                                 |Int    |                                                  |0         
+_s_a_es_mas_grande_que_b                          |String |a es mas grande que b                             |21        
+_s__coma_                                         |String |,                                                 |1         
+_79_4                                             |Float  |79.4                                              |4         
+_7                                                |Int    |7                                                 |1         
+_500                                              |Int    |500                                               |3         
+_305                                              |Int    |305                                               |3         
+_3                                                |Int    |3                                                 |1         
+_27_5                                             |Float  |27.5                                              |4         
+_2                                                |Int    |2                                                 |1         
+_11                                               |Int    |11                                                |2         
+_10                                               |Int    |10                                                |2         
+_1                                                |Int    |1                                                 |1         
+_0                                                |Int    |0                                                 |1         
+@pos                                              |Int    |                                                  |0         
+@nuevoElemento                                    |String |                                                  |0         
+@init                                             |Int    |                                                  |0         
+@indice                                           |Int    |                                                  |0         
+@elemento                                         |Float  |                                                  |0         
+@descuento                                        |Float  |                                                  |0         
+@cont                                             |Int    |                                                  |0         
+@cant_elementos                                   |Int    |                                                  |0         
+@auxExp                                           |Int    |                                                  |0         
+@CANT                                             |Int    |                                                  |0         

@@ -3,24 +3,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "include/tab_simb.h"
 #include "y.tab.h"
 
 
-struct struct_tablaSimbolos{
-	char nombre[100];
-	char tipo[100];
-	char valor[50];
-	char longitud[100];
-};
-char buffer[30];
+
 FILE *yyin;
-int puntero_array = 0;
-struct struct_tablaSimbolos tablaSimbolos[1000];
 
 void validarCotaEntero(char*);
 void validarCotaReal(char*);
 void validarCotaCaracteres(char*);
-int guardarEnTablaSimbolos(char*, char*);
+extern Lista listaSimbolos;
+extern int boolCompiladoOK;
+	
 %}
 %option noyywrap  
 %option yylineno 
@@ -29,22 +24,22 @@ int guardarEnTablaSimbolos(char*, char*);
 DIGITO			[0-9]
 LETRA			[a-zA-Z]
 ID				{LETRA}({LETRA}|{DIGITO})*
-CTE_ENTERA		{DIGITO}+
-CTE_REAL		({DIGITO})*"."({DIGITO})*
+INT				{DIGITO}+
+FLOAT		({DIGITO})*"."({DIGITO})*
 COMILLAS		"\""
 COM_INI			"*-" 
 COM_FIN			"-*"
-CARACTERES		({LETRA}|@|\!|\$|\%|\&|\/|\(|\)|\=|\\|\?|.)
+CARACTERES		({LETRA}|@|\!|\$|\%|\&|\/|\(|\)|\=|\\|\?|\:|\*|\+|\-|\.|\[|\]|\,)
 ESPACIO			" "
-CTE_STRING		{COMILLAS}({CARACTERES}|{DIGITO}|{ESPACIO})+{COMILLAS}
-COMENTARIO		{COM_INI}(.)+{COM_FIN}
+STRING		{COMILLAS}({CARACTERES}|{DIGITO}|{ESPACIO})+{COMILLAS}
+COMENTARIO		{COM_INI}({LETRA}|{DIGITO}|{ESPACIO}|{CARACTERES})*{COM_FIN}
 
 
 
 
 %%
-("if"|"si")			 { printf("\nConstante IF: %s\n", yytext);return IF;}
-("else"|"sino")	     { printf("\nConstante ELSE: %s\n", yytext);return ELSE;}
+("si")			     { printf("\nConstante SI: %s\n", yytext);return SI;}
+("sino")		     { printf("\nConstante SINO: %s\n", yytext);return SINO;}
 "mientras"			 { printf("\nConstante WHILE: %s\n", yytext);return WHILE;}
 "leer"			     { printf("\nConstante READ: %s\n", yytext);return READ;}
 "escribir"			 { printf("\nConstante WRITE: %s\n", yytext);return WRITE;}
@@ -66,10 +61,10 @@ COMENTARIO		{COM_INI}(.)+{COM_FIN}
 "aplicarDescuento"   { printf("\nConstante aplicarDescuento: %s\n", yytext); return aplicarDescuento;} 
 
 
-{CTE_ENTERA}	     { validarCotaEntero(yytext); printf("\nConstante CTE_ENTERA: %s\n", yytext); guardarEnTablaSimbolos("CTE",yytext); yylval.num = strdup(yytext); return CTE_ENTERA;}
-{CTE_REAL}		     { validarCotaReal(yytext); printf("\nConstante CTE_REAL: %s\n", yytext); guardarEnTablaSimbolos("CTE",yytext); yylval.real = strdup(yytext); return CTE_REAL; }
-{CTE_STRING}	     { validarCotaCaracteres(yytext); printf("\nConstante CTE_STRING: %s\n", yytext); guardarEnTablaSimbolos("CTE",yytext); yylval.real = strdup(yytext); return CTE_STRING; }
-{ID}			     { validarCotaCaracteres(yytext); printf("\nConstante ID: %s\n", yytext); guardarEnTablaSimbolos("ID",yytext); yylval.strid = strdup(yytext); return ID; }
+{INT}	     { validarCotaEntero(yytext); printf("\nConstante INT: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tINT); yylval.int_val = atoi(yytext); return INT;}
+{FLOAT}		     { validarCotaReal(yytext); printf("\nConstante FLOAT: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tFLOAT); strcpy(yylval.string_val, yytext); return FLOAT; }
+{STRING}	     { validarCotaCaracteres(yytext); printf("\nConstante STRING: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tSTRING); strcpy(yylval.string_val, yytext); return STRING; }
+{ID}			     { validarCotaCaracteres(yytext); printf("\nConstante ID: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tID); strcpy(yylval.string_val, yytext); return ID; }
 {COMENTARIO}	     { printf("\nComentario que sera descartado:  %s\n",yytext); }
      
 "+"				     { printf("\nConstante OP_MAS: %s\n", yytext);return OP_MAS;}  
@@ -101,6 +96,7 @@ void validarCotaEntero(char* str)
 	if(numero<=-32768|| numero>=32767)
 	{
 		printf("El valor ingresado para el entero se encuentra fuera del rango valido\n");
+		boolCompiladoOK=0;
 		system("Pause");
 		exit(1);
 	}
@@ -113,6 +109,7 @@ void validarCotaReal(char* str)
 	if((numero < pow(1.18,-38)) || (numero > pow(3.4,38)))
 	{
 		printf("ERROR! El valor ingresado para el real se encuentra fuera del rango valido\n");
+		boolCompiladoOK=0;
 		system("Pause");
 		exit(1);	
 	}
@@ -123,83 +120,9 @@ void validarCotaCaracteres(char* str)
 	if(strlen(str)>40)
 	{
 		printf("ERROR! El valor ingresado para la cadena de caracteres se encuentra fuera del rango valido de 40 caracteres\n");
+		boolCompiladoOK=0;
 		system("Pause");
 		exit(1);
 	}
 }
 
-int guardarEnTablaSimbolos(char* tipo, char* nombre){
-	
-	char longitudConstanteString[10];
-	int i;
-	int posicion;
-	char lexema[50]; 
-	if(strcmp(tipo,"CTE")==0)
-	{
-		lexema[0]='_';
-		lexema[1]='\0';
-	}
-	else
-		lexema[0]='\0';
-		
-	//Se anexa al lexema un guion bajo al inicio
-	strcat(lexema,nombre);
-	
-	//Recorremos la tabla de simbolos y en caso que el lexema ya exista, no se agrega y se retorna su posicion
-	for(i = 0; i < puntero_array; i++)
-	{
-		if(strcmp(tablaSimbolos[i].nombre, lexema) == 0)
-		{
-			return i;
-		}
-	}
-	
-	//En caso de ser una CTE, guardamos el Valor en la tabla de simbolos
-	if(strcmp(tipo,"CTE")==0)
-		strcpy(tablaSimbolos[puntero_array].valor, nombre);
-	else
-		tablaSimbolos[puntero_array].valor[0]='\0';
-		
-	strcpy(tablaSimbolos[puntero_array].nombre, lexema );
-	tablaSimbolos[puntero_array].tipo[0]='\0';
-	//En caso de ser una CTE string, se cuentan los caracteres y se guardan en la tabla de simbolos
-	if(tablaSimbolos[i].valor[0] == '\"')
-	{
-		snprintf(longitudConstanteString, sizeof(longitudConstanteString), "%d", strlen(tablaSimbolos[i].valor)-2);
-		strcpy(tablaSimbolos[i].longitud,longitudConstanteString);
-	}
-	else
-		tablaSimbolos[puntero_array].longitud[0]='\0';
-	
-	//Se agrega en la tabla de simbolos y se retorna su posicion
-	posicion = puntero_array;
-	puntero_array++;
-	
-	return posicion;
-}
-
-void escribirEnTablaSimbolos(){
-	FILE *pf; 
-	int i;
-	pf = fopen("symbol-table.txt","w"); 
-
-	if (pf == NULL)
-	{
-		printf("ERROR! No se pudo crear correctamente el archivo de la tabla de simbolos\n");
-	}
-
-	int ancho_tabla = fprintf(pf, "|%-30s|%-15s|%-32s|%-8s|\n", "Nombre","Tipo","Valor","Longitud");
-	for(i = 0; i < ancho_tabla-1; ++i)
-			fprintf(pf, "-");
-	fprintf(pf, "\n");
-	for (i = 0; i < puntero_array; i++)
-			fprintf(pf,"|%-30s|%-15s|%-32s|%-8s|\n", tablaSimbolos[i].nombre,tablaSimbolos[i].tipo,tablaSimbolos[i].valor,tablaSimbolos[i].longitud);
-
-
-	fclose(pf); 
-}
-
-int yyerror(const char *msg) {
-    fprintf(stderr, "Error at line %d: %s\n", yylineno-1, msg);
-    exit(1);
-}
