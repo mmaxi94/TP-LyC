@@ -8,6 +8,7 @@
 #include "include/arbol.h"
 #include "include/pila.h"
 #include "include/cola.h"
+#include "include/assembler.h"
 #define MAX_BUFFER_SIZE 1024
 
 extern int yylineno;
@@ -41,13 +42,13 @@ extern char *yytext;
     int boolCompiladoOK = 1;
 	
     NodoA* CompiladoPtr, *ProgramaPtr, *DeclaPtr, *AlgoPtr,*EntradaPtr,*SalidaPtr,*Expreptr,*Primosptr,*Param1ptr,*Param2ptr, *Descuentoptr, *zona_declaracionPtr, *BloPtr, *DecPtr, *ListPtr, *SentPtr, *AsigPtr, *tipoAux,
-            *CicPtr, *EvalPtr, *Eptr, *StrPtr, *ConPtr, *CmpPtr, *EptrAux, *BloAux, *Tptr, *Fptr, *CmpAux, *StrPtrAux,*Auxcicloptr;
+            *CicPtr, *EvalPtr, *Eptr, *StrPtr, *ConPtr, *CmpPtr, *EptrAux, *BloAux, *Tptr, *Fptr, *CmpAux, *StrPtrAux,*Auxcicloptr,*Auxcicloptr2;
     NodoA* EjePtr, * ConAux;
     NodoA* DecAsigPTr,* DecAsigMPtr,* ParamAsigPtr,* CtePtr, * ParamContPtr;
     char AuxDec[ID_LARGO_MAX + 1];
     NodoA* AuxPtr;
     NodoA * auxCont;
-    char  auxTipo[7], strAux[VALOR_LARGO_MAX + 1],strAuxPos[VALOR_LARGO_MAX + 1],strContador2[VALOR_LARGO_MAX + 1], strAux2[VALOR_LARGO_MAX + 1], strAux3[VALOR_LARGO_MAX + 1],strAux5[MAX_BUFFER_SIZE], strAux6[MAX_BUFFER_SIZE], cmpAux[3], opAux[3];
+    char  auxTipo[15], auxTipo2[15], strAux[VALOR_LARGO_MAX + 1],strAuxPos[VALOR_LARGO_MAX + 1],strAuxPosTS[VALOR_LARGO_MAX + 1],contadorStr[VALOR_LARGO_MAX + 1],strContador2[VALOR_LARGO_MAX + 1],strContador2TS[VALOR_LARGO_MAX + 1], strAux2[VALOR_LARGO_MAX + 1], strAux3[VALOR_LARGO_MAX + 1],strAux5[MAX_BUFFER_SIZE], strAux6[MAX_BUFFER_SIZE], cmpAux[3], opAux[3];
     char strAuxAsig[VALOR_LARGO_MAX + 1];
     int intAux;
     float floatAux;
@@ -119,6 +120,8 @@ compilado_ini:
 							printf("COMPILACION EXITOSA\n");
 							imprimirArbolTexto(&compilado);
 							imprimirArbolGrafico(&compilado);
+							maximo();
+							generarAssembler(&listaSimbolos, &compilado, cantidadAuxiliares - 1);
 
 						}
 						else{
@@ -192,57 +195,81 @@ sentencia:		asignacion { printf(" - asignacion - OK \n"); SentPtr = AsigPtr; }
 
 
 descuento: aplicarDescuento PAR_A parametro1 COMA COR_A {strAux5[0] = '\0'; strAux6[0] = '\0'; contador2=1;} lista COR_C COMA parametro2 PAR_C  { obtenerNumeroPorIndice(strAux5,strAux6); 
-snprintf(strContador2, VALOR_LARGO_MAX, "%d", contador2);
-
+snprintf(strContador2, VALOR_LARGO_MAX, "_%d", contador2);
+snprintf(strContador2TS, VALOR_LARGO_MAX, "%d", contpos);
 Auxcicloptr=
 		crearNodo("bloque",crearNodo("bloque", Param1ptr, Param2ptr),crearNodo("=", crearHoja("@cant_elementos"),crearHoja(strContador2)))
 	;
 	
-
+		insertarEnLista(&listaSimbolos, strContador2TS,  tINTCTE);
+        asignarTipoDato(&listaSimbolos, strContador2TS, "CTE_INTEGER");
+		
+char baseStr[100] = "@nuevoElemento";
 while (indiceAux < contador2)
 {
 	desencolar(&colaIds, strAux, STRING_LARGO_MAX + 1);
 contpos++;
 snprintf(strAuxPos, VALOR_LARGO_MAX, "_%d", contpos);
-
+snprintf(strAuxPosTS, VALOR_LARGO_MAX, "%d", contpos);
+strcat(baseStr, strAuxPos);
 Auxcicloptr=
 	crearNodo("bloque",
 		Auxcicloptr,
 		crearNodo("bloque", crearNodo("=", crearHoja("@elemento"),crearHoja(strAux)), 
 		crearNodo("bloque",crearNodo("=", crearHoja("@pos"),crearHoja(strAuxPos)),
-		crearNodo("bloque",
 		crearNodo("if",crearNodo("<", crearHoja("@pos"),crearHoja("@indice")),
-		crearNodo("bloque", crearNodo("CONCAT", crearHoja("@nuevoElemento"),crearNodo("-", crearHoja("@elemento"),crearHoja("@descuento"))), 
-		crearNodo("CONCAT", crearHoja("@nuevoElemento"),crearNodo("-", crearHoja("@elemento"),
-		crearNodo("*", crearHoja("@elemento"),crearNodo("/", crearHoja("@descuento"),crearHoja("_100"))))))),
-		crearNodo("if",crearNodo("!=", crearHoja("@pos"),crearNodo("-", crearHoja("@cant_elementos"),crearHoja("_1"))),crearNodo("CONCAT", crearHoja("@nuevoElemento"),crearHoja("\",\""))
-		)))
-
+		crearNodo("Cuerpo", crearNodo("=", crearHoja(baseStr),crearNodo("-", crearHoja("@elemento"),crearHoja("@descuento"))), 
+		crearNodo("=", crearHoja(baseStr),crearNodo("-", crearHoja("@elemento"),
+		crearNodo("*", crearHoja("@elemento"),crearNodo("/", crearHoja("@descuento"),crearHoja("_100")))))))
 		))
-	;
 
+		)
+	;
+		insertarEnLista(&listaSimbolos, strAuxPosTS,  tINTCTE);
+        asignarTipoDato(&listaSimbolos, strAuxPosTS, "CTE_INTEGER");
+		insertarEnLista(&listaSimbolos, baseStr,  tID);
+        asignarTipoDato(&listaSimbolos, baseStr, "Float");
+	strcpy(baseStr, "@nuevoElemento");
 	indiceAux++;
 };
 	    insertarEnLista(&listaSimbolos, "@cant_elementos",  tID);
         asignarTipoDato(&listaSimbolos, "@cant_elementos", "Int");
+	    insertarEnLista(&listaSimbolos, "100",  tINTCTE);
+        asignarTipoDato(&listaSimbolos, "100", "CTE_INTEGER");
 	    insertarEnLista(&listaSimbolos, "@elemento",  tID);
         asignarTipoDato(&listaSimbolos, "@elemento", "Float");	
 	    insertarEnLista(&listaSimbolos, "@pos",  tID);
         asignarTipoDato(&listaSimbolos, "@pos", "Int");	
-	    insertarEnLista(&listaSimbolos, "@nuevoElemento",  tID);
-        asignarTipoDato(&listaSimbolos, "@nuevoElemento", "String");	
-	    insertarEnLista(&listaSimbolos, "\",\"",  tSTRING);		
+	    insertarEnLista(&listaSimbolos, "\",\"",  tSTRINGCTE);		
 
-//Descuentoptr = Auxcicloptr;
-Descuentoptr = crearNodo("bloque",Auxcicloptr, crearNodo("Write", crearHoja("@nuevoElemento"),crearHoja("Literal")));
+//Descuentoptr = crearNodo("bloque",Auxcicloptr, crearNodo("bloque", crearHoja("print"),crearHoja("Literal")));
+snprintf(strAuxPos, VALOR_LARGO_MAX, "_%d", indiceAux);
+strcat(baseStr, strAuxPos);
+Auxcicloptr2 = crearHoja(baseStr);
+indiceAux--;
+while (indiceAux > 0)
+{
+	Auxcicloptr2=crearNodo("concat",crearHoja("\",\""),Auxcicloptr2);
+	strcpy(baseStr, "@nuevoElemento");
+	snprintf(strAuxPos, VALOR_LARGO_MAX, "_%d", indiceAux);
+	strcat(baseStr, strAuxPos);
+	
+	Auxcicloptr2=crearNodo("concat",crearHoja(baseStr),Auxcicloptr2);
+	
 
-//Descuentoptr = crearNodo("=", crearHoja("funcion descuento"), crearHoja("lista resultados"));
+	
+
+	
+	indiceAux--;
+}
+Auxcicloptr2=crearNodo("concat",crearHoja("print"),Auxcicloptr2);
+Descuentoptr = crearNodo("bloque",Auxcicloptr,Auxcicloptr2);
 printf("aplicarDescuento - OK\n"); };
 
 parametro1: FLOAT { validarRango(yylval.string_val); 
 							        strcpy(strAux, "_");
 									strcat(strAux,yylval.string_val);						
-									strcpy(auxTipo, TFLOAT);
+									strcpy(auxTipo, TFLOATCTE);
 Param1ptr= crearNodo("=", crearHoja("@descuento"), crearHoja(strAux)); 
 	    insertarEnLista(&listaSimbolos, "@descuento",  tID);
         asignarTipoDato(&listaSimbolos, "@descuento", "Float");
@@ -253,7 +280,7 @@ parametro2: INT {
 	strncpy(strAux6, yytext, MAX_BUFFER_SIZE - 1);
     strAux6[MAX_BUFFER_SIZE - 1] = '\0';
         snprintf(strAux, VALOR_LARGO_MAX, "_%d", $1);
-        strcpy(auxTipo, TINT);
+        strcpy(auxTipo, TINTCTE);
 	Param2ptr= crearNodo("=", crearHoja("@indice"), crearHoja(strAux));
 	
 	    insertarEnLista(&listaSimbolos, "@indice",  tID);
@@ -265,7 +292,9 @@ lista: numero
 {
 	strncpy(strAux5, yytext, MAX_BUFFER_SIZE - 1);
     strAux5[MAX_BUFFER_SIZE - 1] = '\0';
-	
+	contadorAuxiliares++;
+	contadorAuxiliares++;
+	contadorAuxiliares++;
 }
 	   | lista COMA {contador2++;}  numero { 
 	   strncat(strAux5, ",", MAX_BUFFER_SIZE - strlen(strAux5) - 1);
@@ -274,16 +303,16 @@ lista: numero
 
 numero:			INT { 
         snprintf(strAux, VALOR_LARGO_MAX, "_%d", $1);
-        strcpy(auxTipo, TINT);
+        strcpy(auxTipo, TINTCTE);
 				encolar(&colaIds, strAux, STRING_LARGO_MAX + 1); 
-				printf("Condicion ENTERA descuento- OK\n"); } 
+				printf("Condicion ENTERA descuento- OK\n"); contadorAuxiliares++;} 
 				
 				|FLOAT { 
 				strcpy(strAux, "_");
 				strcat(strAux,yylval.string_val);						
-				strcpy(auxTipo, TFLOAT);				
+				strcpy(auxTipo, TFLOATCTE);				
 				encolar(&colaIds, strAux, STRING_LARGO_MAX + 1); 
-				printf("Condicion REAL descuento - OK\n"); } ; 
+				printf("Condicion REAL descuento - OK\n"); contadorAuxiliares++; } ; 
 
 ciclo:			WHILE PAR_A condicion PAR_C LLAVE_A bloque LLAVE_C { 
 																	desapilar(&condAnidados, &ConAux, sizeof(ConAux));
@@ -296,7 +325,19 @@ asignacion:		ID OPAR_ASIG expresion
 								printf("\nError, id: *%s* no fue declarado\n", $1);
 								return 1;
 							};
-							if(!esMismoTipo(&listaSimbolos, $1, auxTipo)){ 
+							
+							strcpy(auxTipo2, auxTipo);
+							if (strcmp(auxTipo2, "CTE_INTEGER") == 0) {
+								strcpy(auxTipo2, "Int");
+							} else if (strcmp(auxTipo2, "CTE_FLOAT") == 0) {
+								strcpy(auxTipo2, "Float");
+							}
+							else if (strcmp(auxTipo2, "CTE_STRING") == 0) {
+								strcpy(auxTipo2, "String");
+							}
+							
+							
+							if(!esMismoTipo(&listaSimbolos, $1, auxTipo2)){ 
 								printf("\nError, datos de diferente tipo para *%s*.\n", $1);
 								return 1;
 							}
@@ -312,7 +353,19 @@ asignacion:		ID OPAR_ASIG expresion
 								printf("\nError, id: *%s* no fue declarado\n", $1);
 								return 1;
 							};
-							if(!esMismoTipo(&listaSimbolos, $1, auxTipo)){ 
+							
+							strcpy(auxTipo2, auxTipo);
+							if (strcmp(auxTipo2, "CTE_INTEGER") == 0) {
+								strcpy(auxTipo2, "Int");
+							} else if (strcmp(auxTipo2, "CTE_FLOAT") == 0) {
+								strcpy(auxTipo2, "Float");
+							}
+							else if (strcmp(auxTipo2, "CTE_STRING") == 0) {
+								strcpy(auxTipo2, "String");
+							}
+							
+							
+							if(!esMismoTipo(&listaSimbolos, $1, auxTipo2)){ 
 								printf("\nError, datos de diferente tipo para *%s*.\n", $1);
 								return 1;
 							}
@@ -383,11 +436,14 @@ comparacion:	expresion { EptrAux = Eptr; } COMP_IGUAL {strcpy(cmpAux,"==");} exp
 
 expre: expresion {printf("\n Contar Primos expresion\n"); Expreptr = 
 																crearNodo("bloque", 
-																	crearNodo("bloque", crearNodo("=",crearHoja("@auxExp"), Eptr),
+																
+																	crearNodo("bloque", 
+																	crearNodo("bloque",
+																	crearNodo("=",crearHoja("@auxExp"), Eptr),crearNodo("=",crearHoja("@CANT"), crearHoja("_0"))),
 																	crearNodo("bloque", crearNodo("=",crearHoja("@init"), crearHoja("_1")), 
 																		crearNodo("bloque",crearNodo("=",crearHoja("@cont"), crearHoja("_0")),
-																			crearNodo("ciclo", crearNodo("<",crearHoja("@init"), crearHoja("@auxExp") ),
-																				crearNodo("Cuerpo",crearNodo("if",crearNodo("==",crearNodo("%", crearHoja("@auxExp"), crearHoja("@init")),crearHoja("_0")),crearNodo("=",crearHoja("@cont"),crearNodo("+",crearHoja("@cont"), crearHoja("_1"))   )
+																			crearNodo("ciclo", crearNodo("<=",crearHoja("@init"), crearHoja("@auxExp") ),
+																				crearNodo("bloque",crearNodo("if",crearNodo("==",crearNodo("%", crearHoja("@auxExp"), crearHoja("@init")),crearHoja("_0")),crearNodo("=",crearHoja("@cont"),crearNodo("+",crearHoja("@cont"), crearHoja("_1"))   )
 																				
 																				),crearNodo("=",crearHoja("@init"),crearNodo("+",crearHoja("@init"), crearHoja("_1"))))))))
 																				,crearNodo("if",crearNodo("==",crearHoja("@cont"), crearHoja("_2")), crearNodo("=",crearHoja("@CANT"),crearNodo("+",crearHoja("@CANT"), crearHoja("_1")))));
@@ -400,11 +456,11 @@ expre: expresion {printf("\n Contar Primos expresion\n"); Expreptr =
         asignarTipoDato(&listaSimbolos, "@cont", "Int");	
 	    insertarEnLista(&listaSimbolos, "@CANT",  tID);
         asignarTipoDato(&listaSimbolos, "@CANT", "Int");	
-		insertarEnLista(&listaSimbolos, "0", tINT);
-        insertarEnLista(&listaSimbolos, "1", tINT);
-		insertarEnLista(&listaSimbolos, "2", tINT);
+		insertarEnLista(&listaSimbolos, "0", tINTCTE);
+        insertarEnLista(&listaSimbolos, "1", tINTCTE);
+		insertarEnLista(&listaSimbolos, "2", tINTCTE);
 	    																			
-																;}
+																;contadorAuxiliares++;}
 
 															
 	  |expre COMA expresion {printf("\n Contar Primos expresiones\n"); 
@@ -413,12 +469,12 @@ expre: expresion {printf("\n Contar Primos expresion\n"); Expreptr =
 																	crearNodo("bloque", crearNodo("=",crearHoja("@auxExp"), Eptr),
 																	crearNodo("bloque", crearNodo("=",crearHoja("@init"), crearHoja("_1")), 
 																		crearNodo("bloque",crearNodo("=",crearHoja("@cont"), crearHoja("_0")),
-																			crearNodo("ciclo", crearNodo("<",crearHoja("@init"), crearHoja("@auxExp") ),
-																				crearNodo("Cuerpo",crearNodo("if",crearNodo("==",crearNodo("%", crearHoja("@auxExp"), crearHoja("@init")),crearHoja("_0")),crearNodo("=",crearHoja("@cont"),crearNodo("+",crearHoja("@cont"), crearHoja("_1"))   )
+																			crearNodo("ciclo", crearNodo("<=",crearHoja("@init"), crearHoja("@auxExp") ),
+																				crearNodo("bloque",crearNodo("if",crearNodo("==",crearNodo("%", crearHoja("@auxExp"), crearHoja("@init")),crearHoja("_0")),crearNodo("=",crearHoja("@cont"),crearNodo("+",crearHoja("@cont"), crearHoja("_1"))   )
 																				
 																				),crearNodo("=",crearHoja("@init"),crearNodo("+",crearHoja("@init"), crearHoja("_1"))))))))
 																				,crearNodo("if",crearNodo("==",crearHoja("@cont"), crearHoja("_2")), crearNodo("=",crearHoja("@CANT"),crearNodo("+",crearHoja("@CANT"), crearHoja("_1"))))))
-	  ;};
+	  ; contadorAuxiliares++;};
 
 				
 expresion:		expresion  { printf(" expresion"); } OP_MAS termino { printf(" termino"); Eptr = crearNodo("+", Eptr, Tptr); contadorAuxiliares++;}
@@ -429,7 +485,7 @@ expresion:		expresion  { printf(" expresion"); } OP_MAS termino { printf(" termi
 
 termino:		termino OP_MULT factor { printf(" factor"); Tptr = crearNodo("*", Tptr, Fptr); contadorAuxiliares++;}
 				|termino OP_DIV factor { printf(" factor"); Tptr = crearNodo("/", Tptr, Fptr); contadorAuxiliares++;}
-				|factor { printf(" factor"); Tptr = Fptr;};
+				|factor { printf(" factor"); Tptr = Fptr; contadorAuxiliares++;};
                          
 factor:			ID { printf("Condicion ID - OK\n"); 
 					if(!idDeclarado(&listaSimbolos, $1)){ 
@@ -445,18 +501,18 @@ factor:			ID { printf("Condicion ID - OK\n");
 					} 
 				|INT { printf("Condicion ENTERA - OK\n"); 
 							        snprintf(strAux, VALOR_LARGO_MAX, "_%d", $1);
-									strcpy(auxTipo, TINT);
+									strcpy(auxTipo, TINTCTE);
 									Fptr= crearHoja(strAux); 
 						} 
 				|FLOAT { printf("Condicion REAL - OK\n"); 
 							        strcpy(strAux, "_");
 									strcat(strAux,yylval.string_val);
 							
-									strcpy(auxTipo, TFLOAT);
+									strcpy(auxTipo, TFLOATCTE);
 									Fptr= crearHoja(strAux);
 							} 
 				|STRING { printf("Condicion STRING - OK\n"); 
-							strcpy(auxTipo, TSTRING);
+							strcpy(auxTipo, TSTRINGCTE);
 							Fptr = crearHoja($1);
 							};
 				

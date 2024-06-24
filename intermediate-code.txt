@@ -1,213 +1,345 @@
-						a
-					=
-						_1
-				bloque
-						b
-					=
-						_3
-			bloque
-									@auxExp
-								=
-									_11
-							bloque
-										@init
-									=
-										_1
-								bloque
-											@cont
+											z
 										=
 											_0
 									bloque
-												@init
-											<
-												@auxExp
-										ciclo
-															@auxExp
-														%
-															@init
-													==
-														_0
-												if
-														@cont
-													=
-															@cont
-														+
-															_1
-											Cuerpo
-													@init
-												=
-														@init
-													+
-														_1
-						bloque
-									@cont
-								==
-									_2
-							if
-									@CANT
-								=
-										@CANT
-									+
-										_1
-					bloque
-									@auxExp
-								=
+											x
+										=
+											_0
+								bloque
 										a
-									+
-										_7
-							bloque
-										@init
 									=
-										_1
-								bloque
-											@cont
-										=
-											_0
-									bloque
-												@init
-											<
-												@auxExp
-										ciclo
+										_2
+							bloque
+									b
+								=
+									_2
+						bloque
+								C
+							=
+								_2
+					bloque
+							"ejecutando contarprimos"
+						Write
+							Literal
+				bloque
 															@auxExp
-														%
+														=
+															_11
+													bloque
+															@CANT
+														=
+															_0
+												bloque
 															@init
-													==
-														_0
-												if
+														=
+															_1
+													bloque
+																@cont
+															=
+																_0
+														bloque
+																	@init
+																<=
+																	@auxExp
+															ciclo
+																				@auxExp
+																			%
+																				@init
+																		==
+																			_0
+																	if
+																			@cont
+																		=
+																				@cont
+																			+
+																				_1
+																bloque
+																		@init
+																	=
+																			@init
+																		+
+																			_1
+											bloque
 														@cont
+													==
+														_2
+												if
+														@CANT
 													=
-															@cont
+															@CANT
 														+
 															_1
-											Cuerpo
-													@init
+										bloque
+														@auxExp
+													=
+															b
+														+
+															_8
+												bloque
+															@init
+														=
+															_1
+													bloque
+																@cont
+															=
+																_0
+														bloque
+																	@init
+																<=
+																	@auxExp
+															ciclo
+																				@auxExp
+																			%
+																				@init
+																		==
+																			_0
+																	if
+																			@cont
+																		=
+																				@cont
+																			+
+																				_1
+																bloque
+																		@init
+																	=
+																			@init
+																		+
+																			_1
+											bloque
+														@cont
+													==
+														_2
+												if
+														@CANT
+													=
+															@CANT
+														+
+															_1
+									bloque
+													@auxExp
 												=
+													_2
+											bloque
 														@init
+													=
+														_1
+												bloque
+															@cont
+														=
+															_0
+													bloque
+																@init
+															<=
+																@auxExp
+														ciclo
+																			@auxExp
+																		%
+																			@init
+																	==
+																		_0
+																if
+																		@cont
+																	=
+																			@cont
+																		+
+																			_1
+															bloque
+																	@init
+																=
+																		@init
+																	+
+																		_1
+										bloque
+													@cont
+												==
+													_2
+											if
+													@CANT
+												=
+														@CANT
 													+
 														_1
-						bloque
-									@cont
-								==
-									_2
-							if
-									@CANT
-								=
-										@CANT
-									+
-										_1
-				bloque
-						primos
-					=
-						@CANT
-		bloque
-											@descuento
-										=
-											_27.5
+								bloque
+												@auxExp
+											=
+												_55
+										bloque
+													@init
+												=
+													_1
+											bloque
+														@cont
+													=
+														_0
+												bloque
+															@init
+														<=
+															@auxExp
+													ciclo
+																		@auxExp
+																	%
+																		@init
+																==
+																	_0
+															if
+																	@cont
+																=
+																		@cont
+																	+
+																		_1
+														bloque
+																@init
+															=
+																	@init
+																+
+																	_1
 									bloque
-											@indice
-										=
-											_3
-								bloque
-										@cant_elementos
-									=
-										4
+												@cont
+											==
+												_2
+										if
+												@CANT
+											=
+													@CANT
+												+
+													_1
 							bloque
-										@elemento
-									=
-										_500
+											@auxExp
+										=
+													z
+												*
+													b
+											+
+												_7
+									bloque
+												@init
+											=
+												_1
+										bloque
+													@cont
+												=
+													_0
+											bloque
+														@init
+													<=
+														@auxExp
+												ciclo
+																	@auxExp
+																%
+																	@init
+															==
+																_0
+														if
+																@cont
+															=
+																	@cont
+																+
+																	_1
+													bloque
+															@init
+														=
+																@init
+															+
+																_1
 								bloque
-											@pos
+											@cont
+										==
+											_2
+									if
+											@CANT
+										=
+												@CANT
+											+
+												_1
+						bloque
+										@auxExp
+									=
+										C
+								bloque
+											@init
 										=
 											_1
 									bloque
-													@pos
-												<
-													@indice
-											if
-														@nuevoElemento
-													CONCAT
-															@elemento
-														-
-															@descuento
-												bloque
-														@nuevoElemento
-													CONCAT
-															@elemento
-														-
-																@elemento
-															*
-																	@descuento
-																/
-																	_100
+												@cont
+											=
+												_0
 										bloque
-													@pos
-												!=
-														@cant_elementos
-													-
-														_1
-											if
-													@nuevoElemento
-												CONCAT
-													","
+													@init
+												<=
+													@auxExp
+											ciclo
+																@auxExp
+															%
+																@init
+														==
+															_0
+													if
+															@cont
+														=
+																@cont
+															+
+																_1
+												bloque
+														@init
+													=
+															@init
+														+
+															_1
+							bloque
+										@cont
+									==
+										_2
+								if
+										@CANT
+									=
+											@CANT
+										+
+											_1
+					bloque
+							x
+						=
+							@CANT
+			bloque
+					x
+				Write
+					Int
+		bloque
+				"ejecutando aplicarDescuento"
+			Write
+				Literal
+	bloque
+										@descuento
+									=
+										_27.5
+								bloque
+										@indice
+									=
+										_3
+							bloque
+									@cant_elementos
+								=
+									_4
 						bloque
 									@elemento
 								=
-									_305
+									_500
 							bloque
 										@pos
 									=
-										_2
+										_1
 								bloque
-												@pos
-											<
-												@indice
-										if
-													@nuevoElemento
-												CONCAT
-														@elemento
-													-
-														@descuento
-											bloque
-													@nuevoElemento
-												CONCAT
-														@elemento
-													-
-															@elemento
-														*
-																@descuento
-															/
-																_100
-									bloque
-												@pos
-											!=
-													@cant_elementos
-												-
-													_1
-										if
-												@nuevoElemento
-											CONCAT
-												","
-					bloque
-								@elemento
-							=
-								_79.4
-						bloque
-									@pos
-								=
-									_3
-							bloque
 											@pos
 										<
 											@indice
 									if
-												@nuevoElemento
-											CONCAT
+												@nuevoElemento_1
+											=
 													@elemento
 												-
 													@descuento
-										bloque
-												@nuevoElemento
-											CONCAT
+										Cuerpo
+												@nuevoElemento_1
+											=
 													@elemento
 												-
 														@elemento
@@ -215,37 +347,27 @@
 															@descuento
 														/
 															_100
-								bloque
-											@pos
-										!=
-												@cant_elementos
-											-
-												_1
-									if
-											@nuevoElemento
-										CONCAT
-											","
-				bloque
-							@elemento
-						=
-							_10
 					bloque
-								@pos
+								@elemento
 							=
-								_4
+								_305
 						bloque
+									@pos
+								=
+									_2
+							bloque
 										@pos
 									<
 										@indice
 								if
-											@nuevoElemento
-										CONCAT
+											@nuevoElemento_2
+										=
 												@elemento
 											-
 												@descuento
-									bloque
-											@nuevoElemento
-										CONCAT
+									Cuerpo
+											@nuevoElemento_2
+										=
 												@elemento
 											-
 													@elemento
@@ -253,32 +375,76 @@
 														@descuento
 													/
 														_100
-							bloque
-										@pos
-									!=
-											@cant_elementos
+				bloque
+							@elemento
+						=
+							_79.4
+					bloque
+								@pos
+							=
+								_3
+						bloque
+									@pos
+								<
+									@indice
+							if
+										@nuevoElemento_3
+									=
+											@elemento
 										-
-											_1
-								if
-										@nuevoElemento
-									CONCAT
+											@descuento
+								Cuerpo
+										@nuevoElemento_3
+									=
+											@elemento
+										-
+												@elemento
+											*
+													@descuento
+												/
+													_100
+			bloque
+						@elemento
+					=
+						_10
+				bloque
+							@pos
+						=
+							_4
+					bloque
+								@pos
+							<
+								@indice
+						if
+									@nuevoElemento_4
+								=
+										@elemento
+									-
+										@descuento
+							Cuerpo
+									@nuevoElemento_4
+								=
+										@elemento
+									-
+											@elemento
+										*
+												@descuento
+											/
+												_100
+		bloque
+				print
+			concat
+					@nuevoElemento_1
+				concat
+						","
+					concat
+							@nuevoElemento_2
+						concat
+								","
+							concat
+									@nuevoElemento_3
+								concat
 										","
-			bloque
-					@nuevoElemento
-				Write
-					Literal
-	bloque
-				a
-			>
-				b
-		ciclo
-					"a es mas grande que b"
-				Write
-					Literal
-			bloque
-					a
-				=
-						a
-					+
-						_1
+									concat
+										@nuevoElemento_4
 Programa

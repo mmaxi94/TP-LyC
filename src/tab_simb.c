@@ -32,29 +32,29 @@ void insertarEnLista(Lista *lista, char *nombre, enum tiposDato tDato)
         strcpy(nuevo_simbolo.nombre, nombre);
         strcpy(nuevo_simbolo.tipo_dato, "Id");
     }
-    else if (tDato == tINT)
+    else if (tDato == tINTCTE)
     {
         strcpy(nuevo_simbolo.nombre, "_");
         strcat(nuevo_simbolo.nombre, nombre);
         strcpy(nuevo_simbolo.valor, nombre);
         sacarMenos(nuevo_simbolo.nombre);
 
-        strcpy(nuevo_simbolo.tipo_dato, TINT);
+        strcpy(nuevo_simbolo.tipo_dato, TINTCTE);
         
         nuevo_simbolo.longitud = strlen(nombre);
     }
-    else if (tDato == tFLOAT)
+    else if (tDato == tFLOATCTE)
     {
 
         strcpy(nuevo_simbolo.nombre, "_");
         strcat(nuevo_simbolo.nombre, nombre);
-        strcpy(nuevo_simbolo.tipo_dato, TFLOAT);
+        strcpy(nuevo_simbolo.tipo_dato, TFLOATCTE);
         strcpy(nuevo_simbolo.valor, nombre);
         nuevo_simbolo.longitud = strlen(nombre);
         
         sacarPuntos(nuevo_simbolo.nombre);
     }
-    else if (tDato == tSTRING)
+    else if (tDato == tSTRINGCTE)
     {
         char aux[] = "\"\"";
         if(strcmp(nombre, aux) == 0){    //no guarda string vacios
@@ -68,7 +68,7 @@ void insertarEnLista(Lista *lista, char *nombre, enum tiposDato tDato)
         strcpy(nuevo_simbolo.valor, nNombre);
         borrarComas(nNombre);
         strcat(nuevo_simbolo.nombre, nNombre);
-        strcpy(nuevo_simbolo.tipo_dato, TSTRING);
+        strcpy(nuevo_simbolo.tipo_dato, TSTRINGCTE);
         
         nuevo_simbolo.longitud = longitud;
 
@@ -382,13 +382,13 @@ void imprimirLista(Lista *lista)
         return;
     }
 	int i;
-    int ancho_tabla =  fprintf(arch, "%-50s|%-7s|%-50s|%-10s\n", "nombre", "tipoDato", "valor", "longitud");
+    int ancho_tabla =  fprintf(arch, "%-50s|%-11s|%-54s|%-14s\n", "nombre", "tipoDato", "valor", "longitud");
 	for(i = 0; i < ancho_tabla-1; ++i)
 			fprintf(arch, "-");
 	fprintf(arch, "\n");
     while (*lista != NULL)
     {
-        fprintf(arch, "%-50s|%-7s|%-50s|%-10d\n", (*lista)->simb.nombre, (*lista)->simb.tipo_dato, (*lista)->simb.valor, (*lista)->simb.longitud);
+        fprintf(arch, "%-50s|%-11s|%-54s|%-14d\n", (*lista)->simb.nombre, (*lista)->simb.tipo_dato, (*lista)->simb.valor, (*lista)->simb.longitud);
         lista = &(*lista)->sig;
     }
 
@@ -514,3 +514,63 @@ int eliminarDeLista(Lista* lista, char* id)
     return 1;
 }
 
+
+void imprimirEncabezado(Lista* lista, int cantAux){
+    FILE *arch = fopen("final.asm", "w");
+    if (arch == NULL)
+    {
+        printf("Error al abrir el archivo\n");
+        return;
+    }
+    //number.asm
+    
+    fprintf(arch, "include ./asm/number.asm\n");
+    fprintf(arch, "include ./asm/macros.asm\n");
+    fprintf(arch, ".MODEL LARGE\n.386\n.STACK 200h\n.DATA\n");
+    while (*lista != NULL)
+    {
+        if (strlen((*lista)->simb.valor) == 0){     // si es ID
+            fprintf(arch, "%s dd ?\n", (*lista)->simb.nombre);
+
+        } else if((strcmp((*lista)->simb.tipo_dato, "CTE_INTEGER") == 0) || (strcmp((*lista)->simb.tipo_dato, "Int") == 0) ){
+            fprintf(arch, "%s dd %s.00\n", (*lista)->simb.nombre, (*lista)->simb.valor);
+        } else if ((strcmp((*lista)->simb.tipo_dato, "CTE_FLOAT") == 0) || (strcmp((*lista)->simb.tipo_dato, "Float") == 0) ){
+            fprintf(arch, "%s dd %s\n", (*lista)->simb.nombre, (*lista)->simb.valor);   //si es float
+        } else{ //si es string
+            fprintf(arch, "%s db \"%s\" , '$', %d dup (?)\n", (*lista)->simb.nombre, (*lista)->simb.valor, (*lista)->simb.longitud);
+        }
+   
+
+        lista = &(*lista)->sig;
+    }
+
+
+    int i = 1;
+    if(cantAux != -1){
+        while(cantAux != 0){
+            char auxiliar[ID_LARGO_MAX];
+            char numero[ID_LARGO_MAX];
+
+            strcpy(auxiliar, "@aux");
+
+            
+ 
+            snprintf(numero, STRING_LARGO_MAX + 1, "%d", i);
+            
+            strcat(auxiliar, numero);
+            fprintf(arch, "%s dd ?\n",auxiliar);
+            i++;
+            cantAux--;
+
+            insertarEnLista(lista, auxiliar, tID);
+        }
+    }
+    
+    fprintf(arch, ".CODE\n");
+    fprintf(arch, "START:\n");
+    fprintf(arch, "mov AX, @DATA\n");
+    fprintf(arch, "mov DS, AX\n");
+    fprintf(arch, "mov es, ax\n\n");
+    fclose(arch);
+
+}

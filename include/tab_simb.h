@@ -11,7 +11,10 @@ enum tiposDato
     tID,
     tINT,
     tFLOAT,
-    tSTRING
+    tSTRING,
+	tINTCTE,
+    tFLOATCTE,
+    tSTRINGCTE
 };
 
 typedef struct

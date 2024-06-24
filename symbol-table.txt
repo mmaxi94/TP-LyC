@@ -1,37 +1,66 @@
-nombre                                            |tipoDato|valor                                             |longitud  
--------------------------------------------------------------------------------------------------------------------------
-variable1                                         |Int    |                                                  |0         
-var1                                              |Int    |                                                  |0         
-primos                                            |Int    |                                                  |0         
-p3                                                |String |                                                  |0         
-p2                                                |String |                                                  |0         
-p1                                                |String |                                                  |0         
-h                                                 |Int    |                                                  |0         
-d                                                 |Float  |                                                  |0         
-c                                                 |Float  |                                                  |0         
-base                                              |Int    |                                                  |0         
-b                                                 |Int    |                                                  |0         
-a                                                 |Int    |                                                  |0         
-_s_a_es_mas_grande_que_b                          |String |a es mas grande que b                             |21        
-_s__coma_                                         |String |,                                                 |1         
-_79_4                                             |Float  |79.4                                              |4         
-_7                                                |Int    |7                                                 |1         
-_500                                              |Int    |500                                               |3         
-_305                                              |Int    |305                                               |3         
-_3                                                |Int    |3                                                 |1         
-_27_5                                             |Float  |27.5                                              |4         
-_2                                                |Int    |2                                                 |1         
-_11                                               |Int    |11                                                |2         
-_10                                               |Int    |10                                                |2         
-_1                                                |Int    |1                                                 |1         
-_0                                                |Int    |0                                                 |1         
-@pos                                              |Int    |                                                  |0         
-@nuevoElemento                                    |String |                                                  |0         
-@init                                             |Int    |                                                  |0         
-@indice                                           |Int    |                                                  |0         
-@elemento                                         |Float  |                                                  |0         
-@descuento                                        |Float  |                                                  |0         
-@cont                                             |Int    |                                                  |0         
-@cant_elementos                                   |Int    |                                                  |0         
-@auxExp                                           |Int    |                                                  |0         
-@CANT                                             |Int    |                                                  |0         
+nombre                                            |tipoDato   |valor                                                 |longitud      
+------------------------------------------------------------------------------------------------------------------------------------
+z                                                 |Int        |                                                      |0             
+x                                                 |Int        |                                                      |0             
+variable1                                         |Int        |                                                      |0             
+p3                                                |String     |                                                      |0             
+p2                                                |String     |                                                      |0             
+p1                                                |String     |                                                      |0             
+base                                              |Int        |                                                      |0             
+b                                                 |Int        |                                                      |0             
+a                                                 |Int        |                                                      |0             
+_s_ejecutando_contarprimos                        |CTE_STRING |ejecutando contarprimos                               |23            
+_s_ejecutando_aplicarDescuento                    |CTE_STRING |ejecutando aplicarDescuento                           |27            
+_s__coma_                                         |CTE_STRING |,                                                     |1             
+_8                                                |CTE_INTEGER|8                                                     |1             
+_79_4                                             |CTE_FLOAT  |79.4                                                  |4             
+_7                                                |CTE_INTEGER|7                                                     |1             
+_55                                               |CTE_INTEGER|55                                                    |2             
+_53                                               |CTE_INTEGER|53                                                    |2             
+_500                                              |CTE_INTEGER|500                                                   |3             
+_4                                                |CTE_INTEGER|4                                                     |1             
+_305                                              |CTE_INTEGER|305                                                   |3             
+_3                                                |CTE_INTEGER|3                                                     |1             
+_27_5                                             |CTE_FLOAT  |27.5                                                  |4             
+_2                                                |CTE_INTEGER|2                                                     |1             
+_11                                               |CTE_INTEGER|11                                                    |2             
+_100                                              |CTE_INTEGER|100                                                   |3             
+_10                                               |CTE_INTEGER|10                                                    |2             
+_1                                                |CTE_INTEGER|1                                                     |1             
+_0                                                |CTE_INTEGER|0                                                     |1             
+C                                                 |Int        |                                                      |0             
+@pos                                              |Int        |                                                      |0             
+@nuevoElemento_4                                  |Float      |                                                      |0             
+@nuevoElemento_3                                  |Float      |                                                      |0             
+@nuevoElemento_2                                  |Float      |                                                      |0             
+@nuevoElemento_1                                  |Float      |                                                      |0             
+@init                                             |Int        |                                                      |0             
+@indice                                           |Int        |                                                      |0             
+@elemento                                         |Float      |                                                      |0             
+@descuento                                        |Float      |                                                      |0             
+@cont                                             |Int        |                                                      |0             
+@cant_elementos                                   |Int        |                                                      |0             
+@auxExp                                           |Int        |                                                      |0             
+@CANT                                             |Int        |                                                      |0             
+@aux9                                             |Id         |                                                      |0             
+@aux8                                             |Id         |                                                      |0             
+@aux7                                             |Id         |                                                      |0             
+@aux6                                             |Id         |                                                      |0             
+@aux5                                             |Id         |                                                      |0             
+@aux4                                             |Id         |                                                      |0             
+@aux3                                             |Id         |                                                      |0             
+@aux22                                            |Id         |                                                      |0             
+@aux21                                            |Id         |                                                      |0             
+@aux20                                            |Id         |                                                      |0             
+@aux2                                             |Id         |                                                      |0             
+@aux19                                            |Id         |                                                      |0             
+@aux18                                            |Id         |                                                      |0             
+@aux17                                            |Id         |                                                      |0             
+@aux16                                            |Id         |                                                      |0             
+@aux15                                            |Id         |                                                      |0             
+@aux14                                            |Id         |                                                      |0             
+@aux13                                            |Id         |                                                      |0             
+@aux12                                            |Id         |                                                      |0             
+@aux11                                            |Id         |                                                      |0             
+@aux10                                            |Id         |                                                      |0             
+@aux1                                             |Id         |                                                      |0             

@@ -7,7 +7,6 @@
 #include "y.tab.h"
 
 
-
 FILE *yyin;
 
 void validarCotaEntero(char*);
@@ -29,7 +28,7 @@ FLOAT		({DIGITO})*"."({DIGITO})*
 COMILLAS		"\""
 COM_INI			"*-" 
 COM_FIN			"-*"
-CARACTERES		({LETRA}|@|\!|\$|\%|\&|\/|\(|\)|\=|\\|\?|\:|\*|\+|\-|\.|\[|\]|\,)
+CARACTERES		({LETRA}|\!|\$|\%|\&|\/|\(|\)|\=|\\|\?|\:|\*|\+|\-|\.|\[|\]|\,)
 ESPACIO			" "
 STRING		{COMILLAS}({CARACTERES}|{DIGITO}|{ESPACIO})+{COMILLAS}
 COMENTARIO		{COM_INI}({LETRA}|{DIGITO}|{ESPACIO}|{CARACTERES})*{COM_FIN}
@@ -61,9 +60,9 @@ COMENTARIO		{COM_INI}({LETRA}|{DIGITO}|{ESPACIO}|{CARACTERES})*{COM_FIN}
 "aplicarDescuento"   { printf("\nConstante aplicarDescuento: %s\n", yytext); return aplicarDescuento;} 
 
 
-{INT}	     { validarCotaEntero(yytext); printf("\nConstante INT: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tINT); yylval.int_val = atoi(yytext); return INT;}
-{FLOAT}		     { validarCotaReal(yytext); printf("\nConstante FLOAT: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tFLOAT); strcpy(yylval.string_val, yytext); return FLOAT; }
-{STRING}	     { validarCotaCaracteres(yytext); printf("\nConstante STRING: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tSTRING); strcpy(yylval.string_val, yytext); return STRING; }
+{INT}	     { validarCotaEntero(yytext); printf("\nConstante INT: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tINTCTE); yylval.int_val = atoi(yytext); return INT;}
+{FLOAT}		     { validarCotaReal(yytext); printf("\nConstante FLOAT: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tFLOATCTE); strcpy(yylval.string_val, yytext); return FLOAT; }
+{STRING}	     { validarCotaCaracteres(yytext); printf("\nConstante STRING: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tSTRINGCTE); strcpy(yylval.string_val, yytext); return STRING; }
 {ID}			     { validarCotaCaracteres(yytext); printf("\nConstante ID: %s\n", yytext); insertarEnLista(&listaSimbolos, yytext, tID); strcpy(yylval.string_val, yytext); return ID; }
 {COMENTARIO}	     { printf("\nComentario que sera descartado:  %s\n",yytext); }
      

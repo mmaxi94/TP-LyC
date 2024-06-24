@@ -1,23 +1,20 @@
 init {
-    a, b, primos : Int
-    c, d : Float
-    variable1,h, var1 : Int
+    a, b : Int
+    variable1 : Int
     p1, p2, p3 : String
     base : Int
+    z,x, C : Int
 }
 
-a := 1
-b := 3
-primos := ContarPrimos ([11, a+7])
+z:=0
+x:=0
+a:=2
+b:=2
+C:=-53
 
 
-aplicarDescuento (27.5, [500, 305, 79.4, 10], 3)
-
-
-mientras (a > b)
-{
-    escribir("a es mas grande que b")
-    a := a + 1
-}
-
-
+escribir("ejecutando contarprimos")
+x := ContarPrimos([11,b+8,2,55,z*b+7,C])
+escribir(x)
+escribir("ejecutando aplicarDescuento")
+aplicarDescuento(27.5, [500, 305, 79.4, 10], 3)  
